@@ -12,6 +12,7 @@ os.chdir(script_dir)
 
 from settings import Settings
 from ship import Ship
+# Why does this give a warning while the ship module is found fine?
 from bullet import Bullet
 
 
@@ -38,7 +39,7 @@ class AlienInvaders:
         pygame.display.set_caption(self.settings.caption)
         self.ship = Ship(self) # The ship knows it is part of this game.
         self.bullets = pygame.sprite.Group() # Like a list.
-
+        self.bullet_count = 0
 
     def run_game(self):
         """ Start the main game loop. """
@@ -48,9 +49,8 @@ class AlienInvaders:
             self._check_events()
 
             # Update the game world.
-            self.ship.update()
-            self.bullets.update()
-
+            self._update_game_world()
+            
             # Render the new state of the game world.
             self._update_screen()
 
@@ -79,6 +79,20 @@ class AlienInvaders:
                     ship.moving_right = False
                 elif event.key == pygame.K_LEFT:
                     ship.moving_left = False
+
+    def _update_game_world(self):
+        self.ship.update()
+        self.bullets.update()
+
+        # Get rid of off-screen bullets. Otherwise you have a memory leak.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        bullet_count = len(self.bullets)
+        if bullet_count != self.bullet_count:
+            print('bullets: ' + str(bullet_count))
+            self.bullet_count = bullet_count
+
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?
