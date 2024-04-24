@@ -9,8 +9,12 @@ class AlienInvasion:
     def __init__(self):
         """ Initialize the game. """
         pygame.init()
+        # To keep a consistent frame rate, pygame will pause before showing next video frame if there is extra time.
+        # Otherwise, the faster your computer, the faster the game would run. You could see this in old DOS games.
+        self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1200, 800))
         pygame.display.set_caption("Alien Invasion")
+        self.bg_color = (230, 230, 230)
 
     def run_game(self):
         """ Start the main game loop. """
@@ -20,8 +24,10 @@ class AlienInvasion:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-            pygame.display.update()
+            # pygame.display.update() # Is this needed?
+            self.screen.fill(self.bg_color)
             pygame.display.flip() # Show the updated the display.
+            self.clock.tick(60) # Tick at 60 frames per second.
 
 # Runs this if called as a script.
 if __name__ == '__main__':
