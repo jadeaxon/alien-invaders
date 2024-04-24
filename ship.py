@@ -1,10 +1,12 @@
 import pygame
+from settings import Settings
 
 class Ship:
     """ Class for the player's ship. """
 
     def __init__(self, game):
         """ Initialize the ship. """
+        self.settings = Settings()
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
         # The top left of the game screen is (0, 0).
@@ -37,11 +39,15 @@ class Ship:
 
     def move_right(self):
         """ Moves the ship to the right. """
-        self.rect.x += 4
+        if self.rect.right < self.screen_rect.right:
+            self.rect.x += int(self.settings.ship_speed)
 
     def move_left(self):
         """ Moves the ship to the left. """
-        self.rect.x -= 4
+        if self.rect.left > 0:
+            self.rect.x -= int(self.settings.ship_speed)
+
+            
 
     
 

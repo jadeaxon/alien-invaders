@@ -23,7 +23,16 @@ class AlienInvaders:
         # Otherwise, the faster your computer, the faster the game would run. You could see this in old DOS games.
         self.settings = Settings()
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+
+        if self.settings.fullscreen:
+            # Fullscreen mode.
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            self.settings.screen_width = self.screen.get_rect().width
+            self.settings.screen_height = self.screen.get_rect().height
+        else:
+            self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+
+
         pygame.display.set_caption(self.settings.caption)
         self.ship = Ship(self) # The ship knows it is part of this game.
 
@@ -56,6 +65,8 @@ class AlienInvaders:
                     ship.moving_right = True
                 elif event.key == pygame.K_LEFT:
                     ship.moving_left = True
+                elif event.key == pygame.K_q:
+                    sys.exit()
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
                     ship.moving_right = False
