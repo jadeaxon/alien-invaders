@@ -1,8 +1,17 @@
 # Alien Invaders game from the Python Crash Course book.
 
+import os
 import sys
-import pygame # type: ignore
-from settings import Settings # type: ignore
+import pygame
+
+script_dir = os.path.dirname(__file__)
+# Make location of this file our working directory. Else relative paths will be screwed up.
+os.chdir(script_dir)
+
+# I've also added this directory to PYTHONPATH in Windows.
+
+from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     """ Class to represent the overall game. """
@@ -16,6 +25,7 @@ class AlienInvasion:
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption(self.settings.caption)
+        self.ship = Ship(self) # The ship knows it is part of this game.
 
     def run_game(self):
         """ Start the main game loop. """
@@ -27,6 +37,7 @@ class AlienInvasion:
                     sys.exit()
             # pygame.display.update() # Is this needed?
             self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
             pygame.display.flip() # Show the updated the display.
             self.clock.tick(60) # Tick at 60 frames per second.
 
