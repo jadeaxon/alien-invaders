@@ -31,25 +31,39 @@ class AlienInvasion:
         """ Start the main game loop. """
         print("Running Alien Invasion.")
         while True:
+            # Check for player input.
             self._check_events()
+
+            # Update the game world.
+            self.ship.update()
+
+            # Render the new state of the game world.
             self._update_screen()
-            
+
+            # Advance time in the game world.
+            self.clock.tick(60) # Tick at 60 frames per second.
+
     # Helper methods (private instance methods).
     # Start with _ by convention.
     def _check_events(self):
+        ship = self.ship
         # Get list of events that have happened since we last checked for events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    ship.moving_right = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    ship.moving_right = False
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?
         self.screen.fill(self.settings.bg_color)
-        self.ship.blitme()
+        self.ship.draw()
         pygame.display.flip() # Show the updated the display.
-        self.clock.tick(60) # Tick at 60 frames per second.
-
-
+        
 # Runs this if called as a script.
 if __name__ == '__main__':
     # Make the game instance and run it.
