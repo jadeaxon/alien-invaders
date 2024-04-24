@@ -17,7 +17,9 @@ class Ship:
         # The variable is probably really a property with associated getter/setter methods.
         self.rect.midbottom = self.screen_rect.midbottom
 
+        # User holding down a key is like having a maneuvering thruster engaged.
         self.moving_right = False
+        self.moving_left = False
 
     # Origin of 'blit': https://en.wikipedia.org/wiki/Bit_blit.
     def blitme(self):
@@ -30,10 +32,18 @@ class Ship:
     def update(self):
         if self.moving_right:
             self.move_right()
+        if self.moving_left:
+            self.move_left()
 
     def move_right(self):
         """ Moves the ship to the right. """
-        self.rect.x += 1
+        self.rect.x += 4
+
+    def move_left(self):
+        """ Moves the ship to the left. """
+        self.rect.x -= 4
+
+    
 
 
 

@@ -13,7 +13,7 @@ os.chdir(script_dir)
 from settings import Settings
 from ship import Ship
 
-class AlienInvasion:
+class AlienInvaders:
     """ Class to represent the overall game. """
 
     def __init__(self):
@@ -54,9 +54,13 @@ class AlienInvasion:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
                     ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    ship.moving_left = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
                     ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    ship.moving_left = False
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?
@@ -68,5 +72,5 @@ class AlienInvasion:
 if __name__ == '__main__':
     # Make the game instance and run it.
     print("Running __main__.")
-    game = AlienInvasion()
+    game = AlienInvaders()
     game.run_game()
