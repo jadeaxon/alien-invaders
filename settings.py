@@ -29,6 +29,7 @@ class Settings:
         self.fleet_direction = 1 # 1 is right; -1 left.
         self.initial_fleet_drop_speed = 20
         self.fleet_drop_speed = self.initial_fleet_drop_speed
+        self.alien_points = 50
 
         self.speedup_factor = 1.1
 

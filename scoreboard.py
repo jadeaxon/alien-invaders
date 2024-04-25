@@ -11,7 +11,7 @@ class Scoreboard:
         
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
-        
+
         self._update_score()
         
     def _update_score(self):
@@ -22,6 +22,10 @@ class Scoreboard:
         self.score_rect.right = self.screen_rect.right - 20
         self.score_rect.top = 20
     
+    def reset(self):
+        self.score = 0
+        self._update_score()
+
     def update(self):
         self._update_score()
 
