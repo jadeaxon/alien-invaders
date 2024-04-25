@@ -13,7 +13,8 @@ os.chdir(script_dir)
 from settings import Settings
 from ship import Ship
 # Why does this give a warning while the ship module is found fine?
-from bullet import Bullet
+from bullet import Bullet # type: ignore
+from alien import Alien # type: ignore
 
 
 class AlienInvaders:
@@ -40,6 +41,16 @@ class AlienInvaders:
         self.ship = Ship(self) # The ship knows it is part of this game.
         self.bullets = pygame.sprite.Group() # Like a list.
         self.bullet_count = 0
+        self.aliens = pygame.sprite.Group()
+        self.alien_count = 0
+
+        self._create_alien_fleet()
+
+    def _create_alien_fleet(self):
+        alien = Alien(self)
+        self.aliens.add(alien)
+
+
 
     def run_game(self):
         """ Start the main game loop. """
@@ -100,11 +111,16 @@ class AlienInvaders:
         self.ship.draw()
         for bullet in self.bullets.sprites():
             bullet.draw()
+        # for alien in self.aliens.sprites():
+            # alien.draw()
+        self.aliens.draw(self.screen)
         pygame.display.flip() # Show the updated the display.
 
     def _fire_bullet(self):
         bullet = Bullet(self)
-        self.bullets.add(bullet)
+        # Only allow a fixed number of bullets to be fired at once.
+        if len(self.bullets) < self.settings.bullet_limit:
+            self.bullets.add(bullet)
 
 # Runs this if called as a script.
 if __name__ == '__main__':
