@@ -128,7 +128,8 @@ class AlienInvaders:
 
         if self.play_button.rect.collidepoint(mouse_pos):
             self.game_active = True
-            self.stats.reset_stats()
+            self.settings.reset()
+            self.stats.reset()
             self.bullets.empty()
             self.aliens.empty()
             self._create_alien_fleet()
@@ -150,10 +151,11 @@ class AlienInvaders:
         # The final two args cause both the bullets and aliens to be deleted.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
-        # If the fleet gets destroyed, create a new fleet.
+        # If the fleet gets destroyed, create a new fleet. Speed up the game.
         if not self.aliens:
             self.bullets.empty()
             self._create_alien_fleet()
+            self.settings.speed_up()
 
         # Check for alien/ship collision.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
