@@ -124,6 +124,10 @@ class AlienInvaders:
             print('bullets: ' + str(bullet_count))
             self.bullet_count = bullet_count
 
+        # Check for bullet collisions with aliens.
+        # The final two args cause both the bullets and aliens to be deleted.
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
         self._check_fleet_edges()
         self.aliens.update()
 
