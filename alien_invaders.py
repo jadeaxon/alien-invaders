@@ -70,7 +70,7 @@ class AlienInvaders:
         alien.rect.x = x
         alien.y = y
         alien.rect.y = y
-        
+
 
     def run_game(self):
         """ Start the main game loop. """
@@ -124,6 +124,9 @@ class AlienInvaders:
             print('bullets: ' + str(bullet_count))
             self.bullet_count = bullet_count
 
+        self._check_fleet_edges()
+        self.aliens.update()
+
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?
@@ -141,6 +144,18 @@ class AlienInvaders:
         # Only allow a fixed number of bullets to be fired at once.
         if len(self.bullets) < self.settings.bullet_limit:
             self.bullets.add(bullet)
+
+    def _check_fleet_edges(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+    
+    def _change_fleet_direction(self):
+        """ Drop the fleet vertically and change horizontal movement direction. """
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1 # Reverse direction.
 
 # Runs this if called as a script.
 if __name__ == '__main__':

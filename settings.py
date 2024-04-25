@@ -20,3 +20,11 @@ class Settings:
         self.bullet_color = (60, 60, 60)
         self.bullet_limit = 3 # Number of bullets allowed at once.
 
+        # Alien settings.
+        self.alien_speed = 1.0
+        self.fleet_direction = 1 # 1 is right; -1 left.
+        self.fleet_drop_speed = 10
+        
+
+
+
