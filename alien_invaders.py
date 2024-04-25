@@ -128,9 +128,13 @@ class AlienInvaders:
         # The final two args cause both the bullets and aliens to be deleted.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
+        # If the fleet gets destroyed, create a new fleet.
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_alien_fleet()
+
         self._check_fleet_edges()
         self.aliens.update()
-
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?
