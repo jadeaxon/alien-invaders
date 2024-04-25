@@ -45,6 +45,7 @@ class AlienInvaders:
         self.bullet_count = 0
         self.aliens = pygame.sprite.Group()
         self.alien_count = 0
+        self.game_active = False # Is a game in progress?
 
         self._create_alien_fleet()
 
@@ -76,14 +77,16 @@ class AlienInvaders:
 
     def run_game(self):
         """ Start the main game loop. """
+        self.game_active = True
         print("Running Alien Invasion.")
         while True:
             # Check for player input.
             self._check_events()
 
-            # Update the game world.
-            self._update_game_world()
-            
+            if self.game_active:
+                # Update the game world.
+                self._update_game_world()
+                
             # Render the new state of the game world.
             self._update_screen()
 
@@ -141,15 +144,25 @@ class AlienInvaders:
             self._ship_hit()
 
         self._check_fleet_edges()
+        self._check_aliens_bottom() # Have aliens reach the bottom of the screen?
         self.aliens.update()
 
+    def _check_aliens_bottom(self):
+        """ Check if aliens have reached the bottom of the screen. """
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                self._ship_hit() # Treat this condition as if ship got hit.
+                break
+
     def _ship_hit(self):
+        """ Handles when ship gets hit (or alien reaches bottom of screen)."""
         self.stats.ships_left -= 1
-        if self.stats.ships_left == 0:
-            print("GAME OVER: The alien invasion was successful.")
-            sys.exit()
         self.bullets.empty()
         self.aliens.empty()
+        if self.stats.ships_left == 0:
+            print("GAME OVER: The alien invasion was successful.")
+            self.game_active = False
+            return
         self._create_alien_fleet()
         self.ship.center()
         sleep(0.5)
