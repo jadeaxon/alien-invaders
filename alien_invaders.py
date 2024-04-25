@@ -133,6 +133,11 @@ class AlienInvaders:
             self.bullets.empty()
             self._create_alien_fleet()
 
+        # Check for alien/ship collision.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit!")
+
+
         self._check_fleet_edges()
         self.aliens.update()
 
