@@ -49,7 +49,8 @@ class AlienInvaders:
         self.game_active = False # Is a game in progress?
         self.play_button = Button(self, "Play")
 
-        self._create_alien_fleet()
+        # Do this when play button pressed.
+        # self._create_alien_fleet()
 
     def _create_alien_fleet(self):
         alien = Alien(self)
@@ -124,7 +125,11 @@ class AlienInvaders:
     def _check_play_button(self, mouse_pos):
         if self.play_button.rect.collidepoint(mouse_pos):
             self.game_active = True
-        
+            self.stats.reset_stats()
+            self.bullets.empty()
+            self.aliens.empty()
+            self._create_alien_fleet()
+
     def _update_game_world(self):
         self.ship.update()
         self.bullets.update()
