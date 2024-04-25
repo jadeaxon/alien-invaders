@@ -49,8 +49,15 @@ class AlienInvaders:
     def _create_alien_fleet(self):
         alien = Alien(self)
         self.aliens.add(alien)
-
-
+        w = alien.rect.width
+        x = w
+        # Add more aliens, evenly spaced horizontally.
+        while x < (self.settings.screen_width - (2 * w)):
+            alien = Alien(self)
+            self.aliens.add(alien)
+            alien.x = x
+            alien.rect.x = x
+            x += 2 * w
 
     def run_game(self):
         """ Start the main game loop. """
