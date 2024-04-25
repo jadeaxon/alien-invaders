@@ -123,6 +123,9 @@ class AlienInvaders:
                     ship.moving_left = False
 
     def _check_play_button(self, mouse_pos):
+        # The play button DNE when the game is active.
+        if self.game_active: return
+
         if self.play_button.rect.collidepoint(mouse_pos):
             self.game_active = True
             self.stats.reset_stats()
