@@ -18,6 +18,7 @@ from bullet import Bullet # type: ignore
 from alien import Alien # type: ignore
 from game_stats import GameStats # type: ignore
 from button import Button # type: ignore
+from scoreboard import Scoreboard # type: ignore
 
 class AlienInvaders:
     """ Class to represent the overall game. """
@@ -39,9 +40,9 @@ class AlienInvaders:
         else:
             self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
 
-
         pygame.display.set_caption(self.settings.caption)
         self.ship = Ship(self) # The ship knows it is part of this game.
+        self.scoreboard = Scoreboard(self)
         self.bullets = pygame.sprite.Group() # Like a list.
         self.bullet_count = 0
         self.aliens = pygame.sprite.Group()
@@ -165,6 +166,7 @@ class AlienInvaders:
         self._check_fleet_edges()
         self._check_aliens_bottom() # Have aliens reach the bottom of the screen?
         self.aliens.update()
+        self.scoreboard.update()
 
     def _check_aliens_bottom(self):
         """ Check if aliens have reached the bottom of the screen. """
@@ -198,6 +200,7 @@ class AlienInvaders:
             # for alien in self.aliens.sprites():
                 # alien.draw()
             self.aliens.draw(self.screen)
+            self.scoreboard.draw()
         
         pygame.display.flip() # Show the updated the display.
 

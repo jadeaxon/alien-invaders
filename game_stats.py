@@ -4,5 +4,6 @@ class GameStats:
         self.reset()
 
     def reset(self):
+        self.score = 0
         self.ships_left = self.settings.ships_at_start
         
