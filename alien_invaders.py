@@ -2,6 +2,7 @@
 
 import os
 import sys
+from time import sleep
 import pygame
 
 script_dir = os.path.dirname(__file__)
@@ -15,7 +16,7 @@ from ship import Ship
 # Why does this give a warning while the ship module is found fine?
 from bullet import Bullet # type: ignore
 from alien import Alien # type: ignore
-
+from game_stats import GameStats # type: ignore
 
 class AlienInvaders:
     """ Class to represent the overall game. """
@@ -26,6 +27,7 @@ class AlienInvaders:
         # To keep a consistent frame rate, pygame will pause before showing next video frame if there is extra time.
         # Otherwise, the faster your computer, the faster the game would run. You could see this in old DOS games.
         self.settings = Settings()
+        self.stats = GameStats(self)
         self.clock = pygame.time.Clock()
 
         if self.settings.fullscreen:
@@ -136,10 +138,21 @@ class AlienInvaders:
         # Check for alien/ship collision.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             print("Ship hit!")
-
+            self._ship_hit()
 
         self._check_fleet_edges()
         self.aliens.update()
+
+    def _ship_hit(self):
+        self.stats.ships_left -= 1
+        if self.stats.ships_left == 0:
+            print("GAME OVER: The alien invasion was successful.")
+            sys.exit()
+        self.bullets.empty()
+        self.aliens.empty()
+        self._create_alien_fleet()
+        self.ship.center()
+        sleep(0.5)
 
     def _update_screen(self):
         # pygame.display.update() # Is this needed?

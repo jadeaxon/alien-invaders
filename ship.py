@@ -40,12 +40,18 @@ class Ship:
         """ Moves the ship to the right. """
         if self.rect.right < self.screen_rect.right:
             self.rect.x += int(self.settings.ship_speed)
+            self.x = float(self.rect.x)
 
     def move_left(self):
         """ Moves the ship to the left. """
         if self.rect.left > 0:
             self.rect.x -= int(self.settings.ship_speed)
+            self.x = float(self.rect.x)
 
+    def center(self):
+        """ Center the ship at the bottom of the screen. """
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
 
 
     
