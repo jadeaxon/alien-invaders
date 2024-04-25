@@ -153,8 +153,8 @@ class AlienInvaders:
         # The final two args cause both the bullets and aliens to be deleted.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if collisions:
-            # Guess it is unlikely two bullets would hit at once.
-            self.stats.score += self.settings.alien_points
+            for aliens in collisions.values(): 
+                self.stats.score += len(aliens) * self.settings.alien_points
             self.scoreboard.update()
 
         # If the fleet gets destroyed, create a new fleet. Speed up the game.
