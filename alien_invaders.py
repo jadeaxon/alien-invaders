@@ -50,14 +50,27 @@ class AlienInvaders:
         alien = Alien(self)
         self.aliens.add(alien)
         w = alien.rect.width
+        h = alien.rect.height
         x = w
-        # Add more aliens, evenly spaced horizontally.
-        while x < (self.settings.screen_width - (2 * w)):
-            alien = Alien(self)
-            self.aliens.add(alien)
-            alien.x = x
-            alien.rect.x = x
-            x += 2 * w
+        y = h
+        
+        # Create multiple rows of aliens.
+        while y < (self.settings.screen_height - (3 * h)):
+            # Create a row of aliens.
+            while x < (self.settings.screen_width - (2 * w)):
+                self._create_alien(x, y)            
+                x += 2 * w
+            x = w
+            y += 2 * h
+
+    def _create_alien(self, x, y):
+        alien = Alien(self)
+        self.aliens.add(alien)
+        alien.x = x
+        alien.rect.x = x
+        alien.y = y
+        alien.rect.y = y
+        
 
     def run_game(self):
         """ Start the main game loop. """
