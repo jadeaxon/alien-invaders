@@ -17,6 +17,7 @@ from ship import Ship
 from bullet import Bullet # type: ignore
 from alien import Alien # type: ignore
 from game_stats import GameStats # type: ignore
+from button import Button # type: ignore
 
 class AlienInvaders:
     """ Class to represent the overall game. """
@@ -46,6 +47,7 @@ class AlienInvaders:
         self.aliens = pygame.sprite.Group()
         self.alien_count = 0
         self.game_active = False # Is a game in progress?
+        self.play_button = Button(self, "Play")
 
         self._create_alien_fleet()
 
@@ -77,7 +79,7 @@ class AlienInvaders:
 
     def run_game(self):
         """ Start the main game loop. """
-        self.game_active = True
+        # self.game_active = True
         print("Running Alien Invasion.")
         while True:
             # Check for player input.
@@ -168,14 +170,18 @@ class AlienInvaders:
         sleep(0.5)
 
     def _update_screen(self):
-        # pygame.display.update() # Is this needed?
-        self.screen.fill(self.settings.bg_color)
-        self.ship.draw()
-        for bullet in self.bullets.sprites():
-            bullet.draw()
-        # for alien in self.aliens.sprites():
-            # alien.draw()
-        self.aliens.draw(self.screen)
+        if not self.game_active:
+            self.play_button.draw()
+        else:
+            # pygame.display.update() # Is this needed?
+            self.screen.fill(self.settings.bg_color)
+            self.ship.draw()
+            for bullet in self.bullets.sprites():
+                bullet.draw()
+            # for alien in self.aliens.sprites():
+                # alien.draw()
+            self.aliens.draw(self.screen)
+        
         pygame.display.flip() # Show the updated the display.
 
     def _fire_bullet(self):
